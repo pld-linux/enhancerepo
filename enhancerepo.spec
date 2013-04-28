@@ -1,17 +1,23 @@
 Summary:	Tool to add extra metadata to rpm-md repositories
 Name:		enhancerepo
-Version:	0.4.1
-Release:	0.1
+Version:	0.4.3
+Release:	0.2
 License:	GPL v2+
 Group:		Applications/System
-Source0:	https://github.com/openSUSE/enhancerepo/archive/release-%{version}.tar.gz?/%{name}-%{version}.tgz
-# Source0-md5:	8a61b704f7aaba7f142889b162111530
+Source0:	https://github.com/openSUSE/enhancerepo/tarball/master?/%{name}-%{version}.tgz
+# Source0-md5:	c3a67eba426ee0f3ce21705d508fb32b
 URL:		http://en.opensuse.org/openSUSE:Enhancerepo
 BuildRequires:	rpm-rubyprov
 BuildRequires:	rpmbuild(macros) >= 1.656
 BuildRequires:	sed >= 4.0
+Requires:	ruby-activesupport >= 2.3
+Requires:	ruby-builder
+Requires:	ruby-ftools
+Requires:	ruby-log4r >= 1.0.5
+Requires:	ruby-nokogiri >= 1.4
 Requires:	ruby-rpm
-Requires:	ruby-rubygems
+Requires:	ruby-rubygems >= 1.3.6
+Requires:	ruby-trollop >= 1.0.5
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -35,7 +41,8 @@ Features:
 - Easily create patches
 
 %prep
-%setup -q -n %{name}-release-%{version}
+%setup -qc
+mv openSUSE-enhancerepo-0e25f21/* .
 
 %{__sed} -i -e '1 s,#!.*ruby,#!%{__ruby},' bin/*
 
@@ -50,7 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO CHANGELOG.rdoc
+%doc README.rdoc TODO CHANGELOG.rdoc
 %attr(755,root,root) %{_bindir}/enhancerepo
 %{ruby_vendorlibdir}/enhance_repo.rb
 %{ruby_vendorlibdir}/enhance_repo
